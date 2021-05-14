@@ -1,0 +1,33 @@
+{
+    "tabWidth": 4,
+    "printWidth": 120,
+    "endOfLine":"auto",
+    "overrides": [{
+            "files": ["src/**/*.tsx", "src/**/*.ts"],
+            "options": {
+                "singleQuote": true,
+                "trailingComma": "es5"
+            }
+        },
+        {
+            "files": "src/**/*.scss",
+            "options": {}
+        },
+        {
+            "files": "src/**/generated/*.ts",
+            "options": {}
+        },
+        {
+            "files": "src/**/generated/*.ts",
+            "options": {}
+        },
+        {
+            "files": "src/**/generated/validate/*.ts",
+            "options": {}
+        },
+        {
+            "files": "src/**/generated/validate/*.js",
+            "options": {}
+        }
+    ]
+}
