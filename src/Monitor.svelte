@@ -7,8 +7,9 @@
 
     enum MonitorStatus {
         LOADING,
-        AVAILABLE,
+        OK,
         UNAVAILABLE,
+        UNHEALTHY,
         DISABLED
     }
 
@@ -18,11 +19,38 @@
         version: string;
     }
 
+    const getMonitorStatusClassName =
+        (monitorStatus: MonitorStatus): string => {
+            let result: string;
+
+            switch (monitorStatus) {
+                case MonitorStatus.OK:
+                    result = 'ok';
+                    break;
+                case MonitorStatus.DISABLED:
+                    result = 'disabled';
+                    break;
+                case MonitorStatus.UNHEALTHY:
+                    result = 'unhealthy';
+                    break;
+                case MonitorStatus.UNAVAILABLE:
+                    result = 'unavailable';
+                    break;
+                case MonitorStatus.LOADING:
+                    result = 'loading';
+                    break;
+            }
+
+            return result;
+        }
+
     let monitorStatus = disabled ? MonitorStatus.DISABLED : MonitorStatus.LOADING;
     let isOnline = false;
     let isFunctional = false;
     let errorStatus: number;
     let serviceStatus: ServiceStatus;
+
+    $: classNames = getMonitorStatusClassName(monitorStatus);
 
     if (!disabled) {
         $: fetch(url).then(response => {
@@ -36,13 +64,13 @@
             return response.json();
         }).then(data => {
             serviceStatus = data;
-            monitorStatus = MonitorStatus.AVAILABLE;
+            monitorStatus = MonitorStatus.OK;
             isFunctional = true;
         }).catch(error => (monitorStatus = MonitorStatus.UNAVAILABLE));
     }
 </script>
 
-<main class="{disabled ? 'disabled' : ''}">
+<main class={classNames}>
     <div class="caption">{name}</div>
 
     {#if note}
@@ -70,7 +98,7 @@
             {/if}
 
             <div class="service-details">
-                {#if monitorStatus === MonitorStatus.AVAILABLE}
+                {#if monitorStatus === MonitorStatus.OK}
                     <div class="sub-caption">Service details</div>
                     <div class="service-details-list">
                         <div>Commit Hash: {serviceStatus.commitHash}</div>
@@ -112,8 +140,20 @@
         margin: 15px 0 15px;
     }
 
-    .disabled {
+    main.disabled {
         color: #cccccc;
+    }
+
+    main.ok {
+        background-color: greenyellow;
+    }
+
+    main.unhealthy {
+        background-color: orange;
+    }
+
+    main.unavailable {
+        background-color: orangered;
     }
 
     .sub-caption {

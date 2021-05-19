@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - release
+
+name: Nitrado build and deploy
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v2.3.2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+
+      - name: Build Project
+        run: |
+          npm install
+          npm run build
+
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: wagnrd.de
+          username: ni816240_1ftp2
+          password: ${{ secrets.password }}
+          local-dir: ./public/
+          exclude: '.ftpquota, .htaccess'
