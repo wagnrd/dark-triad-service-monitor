@@ -3,15 +3,33 @@
 </script>
 
 <main>
-    <Monitor name="Database API" url="some url"/>
-    <Monitor name="Login Service" url="some url"/>
-    <Monitor name="Public Database API" url="some url" diabled/>
-    <Monitor name="Game Server" url="some url" diabled/>
+    <div class="monitor-list">
+        <Monitor name="Database API"
+                 url="https://dark-triad-db.herokuapp.com/status/details"
+                 environment="Prod"/>
+        <Monitor name="Database API Local"
+                 url="http://localhost:8080/status/details"
+                 environment="Local"/>
+        <Monitor name="Login Service"
+                 url="https://dark-triad-login-service.herokuapp.com/status/details"
+                 environment="Prod"/>
+        <Monitor name="Public Database API"
+                 url="https://dark-triad-db-public.herokuapp.com/status/details"
+                 note="Not yet deployed"
+                 disabled/>
+        <Monitor name="Game Server"
+                 note="Not yet deployed"
+                 disabled/>
+    </div>
 </main>
 
 <style>
     main {
+    }
+
+    .monitor-list {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
     }
 </style>
