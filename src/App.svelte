@@ -10,10 +10,9 @@
         <Monitor name="Login Service"
                  url="https://dark-triad-login-service.herokuapp.com/status/details"
                  environment="Prod"/>
-        <Monitor name="Public Database API"
-                 url="https://dark-triad-db-public.herokuapp.com/status/details"
-                 note="Not yet deployed"
-                 disabled/>
+        <Monitor name="Ingress"
+                 url="https://dark-triad-ingress.herokuapp.com/status/details"
+                 environment="Prod"/>
         <Monitor name="Game Server"
                  note="Not yet deployed"
                  disabled/>
